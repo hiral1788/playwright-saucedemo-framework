@@ -1,25 +1,32 @@
-import {test} from'@playwright/test';
+import { test } from '@playwright/test';
 
-import { LoginPage } from './pages/LoginPage';
-import { InventoryPage } from './pages/InventoryPage';
-import { CartPage } from './pages/CartPage';
-import {user} from './data/user';
+import {LoginPage} from '../pages/LoginPage.js';
+import { InventoryPage } from '../pages/InventoryPage.js';
+import { CartPage } from '../pages/CartPage.js'
+import { user } from '../data/user.js';
 
 
-test('Test user can add pordouct to Cart',async ({page})=>{
-    const loginPage= new LoginPage(page);
+
+test('Test user can add product to cart', async ({ page }) => {
+
+    const loginPage = new LoginPage(page);
     const inventoryPage = new InventoryPage(page);
-    const cartPage= new CartPage(page);
+    const cartPage = new CartPage(page);
+
+    const { username, password } =
+        user.standard;
+
     await loginPage.navigate();
-    //await loginPage.login('standard_user', 'secret_sauce');
-    await loginPage.login(user.standard.username,user.standard.password);
+
+    await loginPage.login(
+        username,
+        password
+    );
+
     await inventoryPage.verifyInventoryPage();
     await inventoryPage.sortLowToHigh();
     await inventoryPage.addProducts();
     await inventoryPage.openCart();
     await cartPage.verifyProducts();
-
-
-
 
 });
