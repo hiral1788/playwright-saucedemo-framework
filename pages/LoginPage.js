@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class LoginPage {
 
     constructor(page) {
@@ -11,6 +13,18 @@ export class LoginPage {
     async navigate() {
         await this.page.goto('https://www.saucedemo.com/');
     }
+
+
+  
+
+async verifyLockedUserError(){
+
+    await expect(
+        this.page.locator('[data-test="error"]')
+    ).toContainText(
+        'Sorry, this user has been locked out.'
+    );
+}
 
     async login(user, pass) {
 
